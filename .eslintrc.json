@@ -3,6 +3,10 @@
     "parserOptions": {
         "project": "./tsconfig.json"
         
+    },
+    "rules": {
+        "@typescript-eslint/comma-spacing": "off",
+        "@typescript-eslint/return-await": "off"
     }
 
 }
