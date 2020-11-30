@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt'
 import { IEncrypter } from '../../data/protocols/encrypter'
 
 export class BcryptAdapter implements IEncrypter {
-  constructor (private readonly salt: number = 12) {
+  constructor (private readonly salt: number) {
   }
 
   async encrypt (value: string): Promise<string> {
