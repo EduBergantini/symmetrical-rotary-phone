@@ -21,9 +21,9 @@ const makeAddAccount = (): IAddAccount => {
     add (account: AddAccountModel): AccountModel {
       const fakeAccount = {
         id: 'valid_id',
-        name: 'valid_name',
-        email: 'valid_email@mail.com',
-        password: 'valid_password'
+        name: account.name,
+        email: account.email,
+        password: account.password
       }
       return fakeAccount
     }
