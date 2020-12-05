@@ -66,4 +66,11 @@ describe('Log Controller Decorator', () => {
     await sut.handle(httpRequest)
     expect(handleSpy).toHaveBeenCalledWith(httpRequest)
   })
+
+  test('should return the same result of the signature controller handle method', async () => {
+    const { sut, mockedRequest, mockedResponse } = makeSut()
+    const httpRequest = mockedRequest
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(mockedResponse)
+  })
 })
