@@ -1,4 +1,4 @@
 
 export interface ILogErrorRepository {
-  log: (errorStack: string) => Promise<void>
+  logError: (errorStack: string) => Promise<void>
 }
