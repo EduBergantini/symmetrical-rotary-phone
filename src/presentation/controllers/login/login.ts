@@ -4,6 +4,9 @@ import { IController, IHttpRequest, IHttpResponse } from '../../protocols'
 
 export class LoginController implements IController {
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
-    return Promise.resolve(badRequest(new MissingParamError('email')))
+    if (!httpRequest.body.email) {
+      return Promise.resolve(badRequest(new MissingParamError('email')))
+    }
+    return Promise.resolve(badRequest(new MissingParamError('password')))
   }
 }
