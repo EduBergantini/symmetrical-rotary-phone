@@ -1,5 +1,10 @@
+import { ILogErrorRepository } from '../../../../data/protocols/log-error-repository'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { LogErrorMongoRepository } from './log'
+
+const makeSut = (): ILogErrorRepository => {
+  return new LogErrorMongoRepository()
+}
 
 describe('MongoDB Log Repository', () => {
   beforeAll(async () => {
@@ -13,7 +18,7 @@ describe('MongoDB Log Repository', () => {
     await errorCollection.deleteMany({})
   })
   test('should create an error on success', async () => {
-    const sut = new LogErrorMongoRepository()
+    const sut = makeSut()
     await sut.logError('any_error')
     const errorCollection = await MongoHelper.getCollection('errors')
     const count = await errorCollection.countDocuments()
