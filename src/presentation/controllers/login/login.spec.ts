@@ -1,5 +1,5 @@
 import { InvalidParamError, MissingParamError } from '../../errors'
-import { badRequest, serverError } from '../../helpers/http-helper'
+import { badRequest, serverError, unauthorized } from '../../helpers/http-helper'
 import { IEmailValidator, IHttpRequest } from '../sign-up/sign-up-protocols'
 import { LoginController } from './login'
 import { IAuthentication } from '../../../domain/usecases/authentication'
@@ -77,7 +77,7 @@ describe('Login Controller', () => {
     expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.email)
   })
 
-  test('should return 400 if a valid email is provided', async () => {
+  test('should return 400 if a invalid email is provided', async () => {
     const { sut, emailValidatorStub } = makeSut()
     jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
     const httpRequest = makeFakeHttpRequest()
@@ -100,5 +100,13 @@ describe('Login Controller', () => {
     const httpRequest = makeFakeHttpRequest()
     await sut.handle(httpRequest)
     expect(authSpy).toHaveBeenCalledWith(httpRequest.body.email, httpRequest.body.password)
+  })
+
+  test('should return 401 if invalid credentials are provided', async () => {
+    const { sut, authenticationStub } = makeSut()
+    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(Promise.resolve(null))
+    const httpRequest = makeFakeHttpRequest()
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(unauthorized())
   })
 })
