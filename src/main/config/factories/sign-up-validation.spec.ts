@@ -1,6 +1,7 @@
 import { ValidationComposite } from '../../../presentation/helpers/validators/validation-composite'
 import { makeSignUpValidation } from './sign-up-validation'
 import { RequiredFieldValidation } from '../../../presentation/helpers/validators/required-field-validation'
+import { CompareFieldsValidation } from '../../../presentation/helpers/validators/compare-fields-validation'
 import { IValidation } from '../../../presentation/helpers/validators/validation'
 
 jest.mock('../../../presentation/helpers/validators/validation-composite')
@@ -9,12 +10,12 @@ describe('Signup Validation Factory', () => {
   test('Should call validation composite with all IValidation', () => {
     makeSignUpValidation()
 
-    const requiredFieldValidationList: IValidation[] = []
+    const validationList: IValidation[] = []
 
     for (const fieldName of ['name', 'email', 'password', 'passwordConfirmation']) {
-      requiredFieldValidationList.push(new RequiredFieldValidation(fieldName))
+      validationList.push(new RequiredFieldValidation(fieldName))
     }
-
-    expect(ValidationComposite).toHaveBeenCalledWith(requiredFieldValidationList)
+    validationList.push(new CompareFieldsValidation('password', 'passwordConfirmation'))
+    expect(ValidationComposite).toHaveBeenCalledWith(validationList)
   })
 })
