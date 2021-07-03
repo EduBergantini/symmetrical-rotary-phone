@@ -52,7 +52,7 @@ const makeSut = (): ISutTypes => {
 }
 
 describe('DbAuthentication UseCase', () => {
-  test('Should call LoadAccountByEmailRepository with correct email', async () => {
+  test('Should call ILoadAccountByEmailRepository with correct email', async () => {
     const userEmail = 'any_email@email.com'
     const { sut, loadAccountByEmailRepositoryStub } = makeSut()
     const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'load')
@@ -60,24 +60,31 @@ describe('DbAuthentication UseCase', () => {
     expect(loadSpy).toHaveBeenCalledWith(userEmail)
   })
 
-  test('Should throw if LoadAccountByEmailRepository throws', async () => {
+  test('Should throw if ILoadAccountByEmailRepository throws', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut()
     jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockReturnValueOnce(Promise.reject(new Error()))
     const promise = sut.auth(makeFakeAuthenticationModel())
     await expect(promise).rejects.toThrow(new Error())
   })
 
-  test('Should return null if LoadAccountByEmailRepository returns null', async () => {
+  test('Should return null if ILoadAccountByEmailRepository returns null', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut()
     jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockResolvedValueOnce(null)
     const accessToken = await sut.auth(makeFakeAuthenticationModel())
     expect(accessToken).toBeNull()
   })
 
-  test('Should call HashComparer with correct values', async () => {
+  test('Should call IHashComparer with correct values', async () => {
     const { sut, hashComparerStub } = makeSut()
     const compareSpy = jest.spyOn(hashComparerStub, 'compare')
     await sut.auth(makeFakeAuthenticationModel())
     expect(compareSpy).toHaveBeenCalledWith('any_password', 'encrypted_password')
+  })
+
+  test('Should throw if IHashComparer throws', async () => {
+    const { sut, hashComparerStub } = makeSut()
+    jest.spyOn(hashComparerStub, 'compare').mockReturnValueOnce(Promise.reject(new Error()))
+    const promise = sut.auth(makeFakeAuthenticationModel())
+    await expect(promise).rejects.toThrow(new Error())
   })
 })
