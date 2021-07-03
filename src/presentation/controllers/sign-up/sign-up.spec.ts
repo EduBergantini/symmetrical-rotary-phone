@@ -1,7 +1,7 @@
 import { SignUpController } from './sign-up'
 import { AddAccountModel, IAddAccount, AccountModel, IValidation } from './sign-up-protocols'
 import { IHttpRequest } from '../../protocols'
-import { badRequest, ok } from '../../helpers/http-helper'
+import { badRequest, ok } from '../../helpers/http/http-helper'
 
 interface ISutTypes {
   sut: SignUpController
