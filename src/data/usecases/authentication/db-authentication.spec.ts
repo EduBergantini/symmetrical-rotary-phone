@@ -12,7 +12,7 @@ const makeFakeAccount = (email: string): AccountModel => ({
   id: 'any_id',
   name: 'any_name',
   email: email,
-  password: 'encrypted_password'
+  password: 'hashed_password'
 })
 
 const makeLoadAccountByEmailRepository = (): ILoadAccountByEmailRepository => {
@@ -112,7 +112,7 @@ describe('DbAuthentication UseCase', () => {
     const { sut, hashComparerStub } = makeSut()
     const compareSpy = jest.spyOn(hashComparerStub, 'compare')
     await sut.auth(makeFakeAuthenticationModel())
-    expect(compareSpy).toHaveBeenCalledWith('any_password', 'encrypted_password')
+    expect(compareSpy).toHaveBeenCalledWith('any_password', 'hashed_password')
   })
 
   test('Should throw if IHashComparer throws', async () => {
