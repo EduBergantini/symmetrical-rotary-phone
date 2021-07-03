@@ -1,11 +1,13 @@
 import { AuthenticationModel, IAuthentication } from '../../../domain/usecases/authentication'
 import { IHashComparer } from '../../protocols/criptography/hash-comparer'
+import { ITokenGenerator } from '../../protocols/criptography/token-generator'
 import { ILoadAccountByEmailRepository } from '../../protocols/db/load-account-by-email-repository'
 
 export class DbAuthentication implements IAuthentication {
   constructor (
     private readonly loadAccountByEmailRepository: ILoadAccountByEmailRepository,
-    private readonly hashComparer: IHashComparer
+    private readonly hashComparer: IHashComparer,
+    private readonly tokenGenerator: ITokenGenerator
   ) {}
 
   async auth (model: AuthenticationModel): Promise<string> {
@@ -17,6 +19,7 @@ export class DbAuthentication implements IAuthentication {
     if (!compareResult) {
       return null
     }
+    await this.tokenGenerator.generate(accountModel.id)
     return ''
   }
 }
