@@ -48,4 +48,10 @@ describe('BCrypt Adapter', () => {
     await sut.compare('any_value', 'any_hash')
     expect(hashSky).toHaveBeenCalledWith('any_value', 'any_hash')
   })
+
+  test('should return true if method compare succeed', async () => {
+    const sut = makeSut()
+    const hashResult = await sut.compare('any_value', 'any_hash')
+    expect(hashResult).toBeTruthy()
+  })
 })
