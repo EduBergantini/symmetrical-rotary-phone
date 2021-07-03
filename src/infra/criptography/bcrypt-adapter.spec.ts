@@ -14,7 +14,7 @@ jest.mock('bcrypt', () => ({
 }))
 
 describe('BCrypt Adapter', () => {
-  test('should call bcrypt with correct value', async () => {
+  test('should call method hash with correct value', async () => {
     const sut = makeSut()
     const hashSky = jest.spyOn(bcrypt, 'hash')
     const testValue = 'any_value'
@@ -22,7 +22,7 @@ describe('BCrypt Adapter', () => {
     expect(hashSky).toHaveBeenCalledWith(testValue, salt)
   })
 
-  test('should return a hash on success', async () => {
+  test('should return a hash on  method hash success', async () => {
     const sut = makeSut()
 
     const testValue = 'any_value'
@@ -30,7 +30,7 @@ describe('BCrypt Adapter', () => {
     expect(hashResult).toBe('hash')
   })
 
-  test('should forward BCryptAdapter errors', async () => {
+  test('should forward method hash errors', async () => {
     const sut = makeSut()
     jest.spyOn(bcrypt, 'hash').mockReturnValueOnce(Promise.reject(new Error()))
     const testValue = 'any_value'
