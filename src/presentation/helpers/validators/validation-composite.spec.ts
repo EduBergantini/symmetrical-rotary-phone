@@ -7,7 +7,10 @@ interface ISutTypes {
 }
 
 const makeSut = (): ISutTypes => {
-  const validationStubs = [makeValidation(), makeValidation()]
+  const validationStubs = [
+    makeValidation(),
+    makeValidation()
+  ]
   const sut = new ValidationComposite(validationStubs)
   return { sut, validationStubs }
 }
@@ -21,7 +24,7 @@ const makeValidation = (): IValidation => {
   return new ValidationStub()
 }
 
-describe('Required Field Validation', () => {
+describe('Validation Composite', () => {
   test('Should return an error if any validation fails', () => {
     const { sut, validationStubs } = makeSut()
     jest.spyOn(validationStubs[1], 'validate').mockReturnValueOnce(new Error())
