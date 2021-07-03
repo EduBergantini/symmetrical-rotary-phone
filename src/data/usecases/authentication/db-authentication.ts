@@ -13,7 +13,10 @@ export class DbAuthentication implements IAuthentication {
     if (!accountModel) {
       return null
     }
-    await this.hashComparer.compare(model.password, accountModel.password)
+    const compareResult = await this.hashComparer.compare(model.password, accountModel.password)
+    if (!compareResult) {
+      return null
+    }
     return ''
   }
 }
