@@ -15,11 +15,11 @@ export class DbAuthentication implements IAuthentication {
     if (!accountModel) {
       return null
     }
-    const compareResult = await this.hashComparer.compare(model.password, accountModel.password)
-    if (!compareResult) {
+    const isValidPassword = await this.hashComparer.compare(model.password, accountModel.password)
+    if (!isValidPassword) {
       return null
     }
-    await this.tokenGenerator.generate(accountModel.id)
-    return ''
+    const accessToken = await this.tokenGenerator.generate(accountModel.id)
+    return accessToken
   }
 }
