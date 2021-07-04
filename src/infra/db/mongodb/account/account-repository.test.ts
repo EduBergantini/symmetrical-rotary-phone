@@ -1,6 +1,6 @@
 import { Collection } from 'mongodb'
 import { MongoHelper } from '../helpers/mongo-helper'
-import { MongoAccountRepository } from './account'
+import { MongoAccountRepository } from './account-repository'
 
 const makeSut = (): MongoAccountRepository => {
   return new MongoAccountRepository()
