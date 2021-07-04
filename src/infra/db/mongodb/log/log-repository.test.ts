@@ -1,6 +1,6 @@
 import { ILogErrorRepository } from '../../../../data/protocols/db/log-error-repository'
 import { MongoHelper } from '../helpers/mongo-helper'
-import { LogErrorMongoRepository } from './log'
+import { LogErrorMongoRepository } from './log-repository'
 
 const makeSut = (): ILogErrorRepository => {
   return new LogErrorMongoRepository()
