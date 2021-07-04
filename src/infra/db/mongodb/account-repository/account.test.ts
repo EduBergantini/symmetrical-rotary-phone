@@ -33,7 +33,7 @@ describe('MongoDB Account Repository', () => {
     expect(account.password).toBe('any_password')
   })
 
-  test('Should return an account when loadByEmail success', async () => {
+  test('Should return an account when loadByEmail succeeds', async () => {
     const sut = makeSut()
     await accountCollection.insertOne({
       name: 'any_name',
@@ -52,5 +52,20 @@ describe('MongoDB Account Repository', () => {
     const sut = makeSut()
     const account = await sut.loadByEmail('any_email@email.com')
     expect(account).toBeFalsy()
+  })
+
+  test('Should update account token when updateAccessToken succeeds', async () => {
+    const sut = makeSut()
+    const result = await accountCollection.insertOne({
+      name: 'any_name',
+      email: 'any_email@email.com',
+      password: 'any_password'
+    })
+    const { _id, accessToken } = result.ops[0]
+    expect(accessToken).toBeFalsy()
+    await sut.updateAccessToken(_id, 'any_token')
+    const mongoAccount = await accountCollection.findOne({ _id })
+    expect(mongoAccount).toBeTruthy()
+    expect(mongoAccount.accessToken).toBe('any_token')
   })
 })
