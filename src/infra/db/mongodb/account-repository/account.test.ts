@@ -1,10 +1,12 @@
-import { IAddAccountRepository } from '../../../../data/protocols/db/add-account-repository'
+import { Collection } from 'mongodb'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { MongoAccountRepository } from './account'
 
-const makeSut = (): IAddAccountRepository => {
+const makeSut = (): MongoAccountRepository => {
   return new MongoAccountRepository()
 }
+
+let accountCollection: Collection<any>
 
 describe('MongoDB Account Repository', () => {
   beforeAll(async () => {
@@ -14,16 +16,31 @@ describe('MongoDB Account Repository', () => {
     await MongoHelper.disconnect()
   })
   beforeEach(async () => {
-    const accountCollection = await MongoHelper.getCollection('accounts')
+    accountCollection = await MongoHelper.getCollection('accounts')
     await accountCollection.deleteMany({})
   })
-  test('should return an account on success', async () => {
+  test('should return an account on addAccount success', async () => {
     const sut = makeSut()
     const account = await sut.addAccount({
       name: 'any_name',
       email: 'any_email@email.com',
       password: 'any_password'
     })
+    expect(account).toBeTruthy()
+    expect(account.id).toBeTruthy()
+    expect(account.name).toBe('any_name')
+    expect(account.email).toBe('any_email@email.com')
+    expect(account.password).toBe('any_password')
+  })
+
+  test('should return an account on loadByEmail success', async () => {
+    const sut = makeSut()
+    await accountCollection.insertOne({
+      name: 'any_name',
+      email: 'any_email@email.com',
+      password: 'any_password'
+    })
+    const account = await sut.loadByEmail('any_email@email.com')
     expect(account).toBeTruthy()
     expect(account.id).toBeTruthy()
     expect(account.name).toBe('any_name')
