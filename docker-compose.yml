@@ -1,0 +1,25 @@
+version: "3"
+services: 
+    mongodb:
+        container_name: mongo-clean-node-api-container
+        image: mongo:4.4
+        restart: always
+        volumes: 
+            - ./data:/data/db
+        ports: 
+            - "27017:27017"
+
+    api:
+        container_name: clean-node-api
+        build: .
+        restart: always
+        image: clean-node-api
+        command: npm start
+        volumes: 
+            -./dist:/usr/src/clean-node-api/dist
+        ports: 
+            - "5050:5050"
+        links: 
+            -mongodb
+        environment: 
+            - MONGO_URL=mongodb://mongodb:27017/clean-node-api
