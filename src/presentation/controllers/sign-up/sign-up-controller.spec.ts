@@ -1,5 +1,5 @@
-import { SignUpController } from './sign-up'
-import { AddAccountModel, IAddAccount, AccountModel, IValidation } from './sign-up-protocols'
+import { SignUpController } from './sign-up-controller'
+import { AddAccountModel, IAddAccount, AccountModel, IValidation } from './sign-up-controller-protocols'
 import { IHttpRequest } from '../../protocols'
 import { badRequest, ok } from '../../helpers/http/http-helper'
 
