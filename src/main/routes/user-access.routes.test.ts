@@ -52,5 +52,15 @@ describe('User Access Routes', () => {
         })
         .expect(200)
     })
+
+    test('should return 401 for invalid credentials', async () => {
+      await request(app)
+        .post('/api/sign-in')
+        .send({
+          email: 'meu-email@minha-empresa.com',
+          password: '123@Mudar!'
+        })
+        .expect(401)
+    })
   })
 })
