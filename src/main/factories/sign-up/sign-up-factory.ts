@@ -5,7 +5,7 @@ import { LogErrorMongoRepository } from '../../../infra/db/mongodb/log/log-repos
 import { SignUpController } from '../../../presentation/controllers/sign-up/sign-up'
 import { IController } from '../../../presentation/protocols'
 import { LogControllerDecorator } from '../../decorators/log-controller-decorator'
-import { makeSignUpValidation } from './sign-up-validation'
+import { makeSignUpValidation } from './sign-up-validation-factory'
 
 export const makeSignUpController = (): IController => {
   const bCryptAdapterSalt = 12

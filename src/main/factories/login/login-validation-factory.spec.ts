@@ -1,5 +1,5 @@
-import { ValidationComposite, RequiredFieldValidation, CompareFieldsValidation, EmailFieldValidation } from '../../../presentation/helpers/validators'
-import { makeSignUpValidation } from './sign-up-validation'
+import { ValidationComposite, RequiredFieldValidation, EmailFieldValidation } from '../../../presentation/helpers/validators'
+import { makeLoginValidation } from './login-validation-factory'
 import { IValidation } from '../../../presentation/protocols/validation'
 import { IEmailValidator } from '../../../presentation/protocols/email-validator'
 
@@ -16,14 +16,13 @@ describe('Signup Validation Factory', () => {
   }
 
   test('Should call validation composite with all IValidation', () => {
-    makeSignUpValidation()
+    makeLoginValidation()
 
     const validationList: IValidation[] = []
 
-    for (const fieldName of ['name', 'email', 'password', 'passwordConfirmation']) {
+    for (const fieldName of ['email', 'password']) {
       validationList.push(new RequiredFieldValidation(fieldName))
     }
-    validationList.push(new CompareFieldsValidation('password', 'passwordConfirmation'))
     validationList.push(new EmailFieldValidation('email', makeEmailValidator()))
     expect(ValidationComposite).toHaveBeenCalledWith(validationList)
   })
