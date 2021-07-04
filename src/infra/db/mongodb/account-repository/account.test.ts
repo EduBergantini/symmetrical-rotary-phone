@@ -19,7 +19,7 @@ describe('MongoDB Account Repository', () => {
   })
   test('should return an account on success', async () => {
     const sut = makeSut()
-    const account = await sut.add({
+    const account = await sut.addAccount({
       name: 'any_name',
       email: 'any_email@email.com',
       password: 'any_password'

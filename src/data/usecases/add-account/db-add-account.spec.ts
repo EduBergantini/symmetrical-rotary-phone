@@ -26,7 +26,7 @@ const makeFakeAccountModel = (account: AddAccountModel): AccountModel => ({
 
 const makeAccountRepository = (): IAddAccountRepository => {
   class AddAccountRepositoryStub implements IAddAccountRepository {
-    async add (account: AddAccountModel): Promise<AccountModel> {
+    async addAccount (account: AddAccountModel): Promise<AccountModel> {
       const fakeAccount = makeFakeAccountModel(account)
       return Promise.resolve(fakeAccount)
     }
@@ -67,7 +67,7 @@ describe('DbAddAccount UseCase', () => {
 
   test('should call AddAccountRepository with correct values', async () => {
     const { sut, addAccountRepositoryStub } = makeSut()
-    const addSpy = jest.spyOn(addAccountRepositoryStub, 'add')
+    const addSpy = jest.spyOn(addAccountRepositoryStub, 'addAccount')
     const accountData = makeFakeAddAccountModel()
     await sut.add(accountData)
     expect(addSpy).toHaveBeenCalledWith({
@@ -79,7 +79,7 @@ describe('DbAddAccount UseCase', () => {
 
   test('should pass AddAccountRepository errors forward', async () => {
     const { sut, addAccountRepositoryStub } = makeSut()
-    jest.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(Promise.reject(new Error()))
+    jest.spyOn(addAccountRepositoryStub, 'addAccount').mockReturnValueOnce(Promise.reject(new Error()))
     const accountData = makeFakeAddAccountModel()
     const accountPromise = sut.add(accountData)
     await expect(accountPromise).rejects.toThrow()
