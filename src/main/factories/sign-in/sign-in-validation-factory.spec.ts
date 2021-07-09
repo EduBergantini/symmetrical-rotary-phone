@@ -1,5 +1,5 @@
 import { ValidationComposite, RequiredFieldValidation, EmailFieldValidation } from '../../../presentation/helpers/validators'
-import { makeLoginValidation } from './login-validation-factory'
+import { makeSignInValidation } from './sign-in-validation-factory'
 import { IValidation } from '../../../presentation/protocols/validation'
 import { IEmailValidator } from '../../../presentation/protocols/email-validator'
 
@@ -16,7 +16,7 @@ describe('Signup Validation Factory', () => {
   }
 
   test('Should call validation composite with all IValidation', () => {
-    makeLoginValidation()
+    makeSignInValidation()
 
     const validationList: IValidation[] = []
 

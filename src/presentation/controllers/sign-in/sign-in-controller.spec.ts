@@ -1,9 +1,9 @@
-import { IHttpRequest, IAuthentication, IValidation, AuthenticationModel } from './login-controller-protocols'
+import { IHttpRequest, IAuthentication, IValidation, AuthenticationModel } from './sign-in-controller-protocols'
 import { badRequest, ok, serverError, unauthorized } from '../../helpers/http/http-helper'
-import { LoginController } from './login-controller'
+import { SignInController } from './sign-in-controller'
 
 interface SutTypes {
-  sut: LoginController
+  sut: SignInController
   validationStub: IValidation
   authenticationStub: IAuthentication
 }
@@ -36,7 +36,7 @@ const makeFakeHttpRequest = (): IHttpRequest => ({
 const makeSut = (): SutTypes => {
   const validationStub = makeValidation()
   const authenticationStub = makeAuthentication()
-  const sut = new LoginController(validationStub, authenticationStub)
+  const sut = new SignInController(validationStub, authenticationStub)
   return {
     sut,
     validationStub,
@@ -44,7 +44,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-describe('Login Controller', () => {
+describe('Sign In Controller', () => {
   test('should call IAuthentication with correct values', async () => {
     const { sut, authenticationStub } = makeSut()
     const authSpy = jest.spyOn(authenticationStub, 'auth')

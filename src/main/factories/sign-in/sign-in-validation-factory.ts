@@ -1,8 +1,8 @@
 import { RequiredFieldValidation, EmailFieldValidation, ValidationComposite } from '../../../presentation/helpers/validators'
 import { IValidation } from '../../../presentation/protocols/validation'
-import { EmailValidatorAdapter } from '../../../main/adapters/validators/email-validator-adapter'
+import { EmailValidatorAdapter } from '../../adapters/validators/email-validator-adapter'
 
-export const makeLoginValidation = (): IValidation => {
+export const makeSignInValidation = (): IValidation => {
   const validationList: IValidation[] = []
 
   for (const fieldName of ['email', 'password']) {
