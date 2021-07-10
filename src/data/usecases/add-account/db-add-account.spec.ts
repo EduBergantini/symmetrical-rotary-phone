@@ -23,7 +23,7 @@ const makeFakeAddAccountModel = (): AddAccountModel => ({
   password: 'valid_password'
 })
 
-const makeFakeAccountModel = (account: AddAccountModel): AccountModel => ({
+const makeFakeAccountModel = (account: AddAccountModel = makeFakeAddAccountModel()): AccountModel => ({
   id: 'valid_id',
   name: account.name,
   email: account.email,
@@ -44,8 +44,7 @@ const makeAccountRepository = (): IAddAccountRepository => {
 const makeLoadAccountByEmailRepository = (): ILoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements ILoadAccountByEmailRepository {
     async loadByEmail (email: string): Promise<AccountModel> {
-      const account: AccountModel = makeFakeAccountModel({ name: 'any_name', email, password: 'any_password' })
-      return Promise.resolve(account)
+      return Promise.resolve(null)
     }
   }
   return new LoadAccountByEmailRepositoryStub()
@@ -125,10 +124,10 @@ describe('DbAddAccount UseCase', () => {
     await expect(promise).rejects.toThrow(new Error())
   })
 
-  test('Should return null if ILoadAccountByEmailRepository returns null', async () => {
+  test('Should return null if ILoadAccountByEmailRepository not returns an account', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockResolvedValueOnce(null)
-    const accessToken = await sut.add(makeFakeAddAccountModel())
-    expect(accessToken).toBeNull()
+    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockResolvedValueOnce(Promise.resolve(makeFakeAccountModel()))
+    const account = await sut.add(makeFakeAddAccountModel())
+    expect(account).toBeNull()
   })
 })
