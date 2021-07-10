@@ -1,6 +1,6 @@
-import { InvalidParamError, ServerError } from '../../errors'
-import { IHttpRequest } from '../../protocols'
-import { IEmailValidator } from '../../protocols/email-validator'
+import { InvalidParamError, ServerError } from '../../presentation/errors'
+import { IHttpRequest } from '../../presentation/protocols'
+import { IEmailValidator } from '../protocols/email-validator'
 import { EmailFieldValidation } from '../validators/email-field-validation'
 
 interface ISutTypes {
